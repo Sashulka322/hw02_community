@@ -10,7 +10,9 @@ class Post(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts'
+        related_name='posts',
+        blank=True,
+        null=True
     )
 
 class Group(models.Model):
@@ -19,5 +21,7 @@ class Group(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='Group'
+        related_name='Group',
+        blank=True,
+        null=True
     )
