@@ -20,6 +20,6 @@ from django.urls import path, include  # <---index categoties заменили
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('posts.urls')),
-    path('', include('posts.urls', namespace='posts_friends')),
-    path('', include('posts.urls', namespace='posts_all')),
+    path('', include('posts.urls', namespace='group_list')),
+    path('', include('posts.urls', namespace='group_detali')),
 ]

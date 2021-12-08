@@ -8,24 +8,26 @@ def index(request):
     # отсортированных по полю pub_date
     # по убыванию (от больших значений к меньшим)
     posts = Post.objects.order_by('-pub_date')[:10]
+    title = 'Это главная страница Ya'
     # В словаре context отправляем информацию в шаблон
     context = {
+        'title': title,
         'posts': posts,
     }
     return render(request, 'posts/index.html', context)
 
 
 # В урл мы ждем парметр, и нужно его прередать в функцию для использования
-def posts_friends(request):  # Create your views here.
-    template = 'posts/posts_friends.html'
+def group_posts(request):  # Create your views here.
+    template = 'posts/group_list.html'
     context = {
         'text': 'Здесь будет информация о группах проекта Yatube'
     }
-    return render(request, template, context)
+    return render(request, context, template)
 
 
-def posts_all(request, anyslug):  # Create your views here.
-    template = 'posts/posts_all.html'
+def posts_detail(request, anyslug):  # Create your views here.
+    template = 'posts/posts_detail.html'
     context = {
         'text': f"<p>{anyslug}</p>"
     }
