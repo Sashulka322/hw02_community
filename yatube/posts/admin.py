@@ -3,6 +3,14 @@ from django.contrib import admin
 from .models import Post, Group
 
 
+class GroupAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug', 'description')
+    list_editable = ('slug',)
+    search_fields = ('slug',)
+    list_filter = ('slug',)
+    empty_value_display = '-пусто-'
+
+
 class PostAdmin(admin.ModelAdmin):
     # Перечисляем поля, которые должны отображаться в админке
     list_display = ('pk', 'text', 'pub_date', 'author')
@@ -16,4 +24,4 @@ class PostAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Post, PostAdmin)
-admin.site.register(Group)
+admin.site.register(Group, GroupAdmin)
