@@ -1,3 +1,4 @@
+from typing import Generic
 from django.db import models
 from django.contrib.auth import get_user_model
 # Create your models here.
@@ -23,12 +24,8 @@ class Post(models.Model):
         blank=True,
         null=True
     )
-
-class Group(models.Model):
-    text = models.TextField()
-    pub_date = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(
-        User,
+    group = models.ForeignKey(
+        Group,
         on_delete=models.CASCADE,
         related_name='Group',
         blank=True,
