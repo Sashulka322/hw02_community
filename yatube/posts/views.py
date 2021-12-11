@@ -1,6 +1,5 @@
-from django.shortcuts import render
-from .models import Post
-
+from django.shortcuts import render, get_object_or_404
+from .models import Post, Group
 
 def index(request):
     # Одна строка вместо тысячи слов на SQL:
@@ -18,12 +17,16 @@ def index(request):
 
 
 # В урл мы ждем парметр, и нужно его прередать в функцию для использования
-def group_posts(request):  # Create your views here.
-    template = 'posts/group_list.html'
+def group_posts(request, slug):  # Create your views here.
+    group = get_object_or_404(Group, slug=slug)
+    posts = Post.objects.filter(group=group).order_by_('-pub_date')[:10]
+    # template = 'posts/group_list.html'
     context = {
-        'text': 'Здесь будет информация о группах проекта Yatube'
+        'text': 'Здесь будет информация о группах проекта Yatube',
+        'group': group,
+        'posts': posts,
     }
-    return render(request, context, template)
+    return render(request, 'posts/group_list.html', context)
 
 
 def posts_detail(request, anyslug):  # Create your views here.
