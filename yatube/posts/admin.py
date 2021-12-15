@@ -4,7 +4,7 @@ from .models import Post, Group
 
 
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'description', 'text')
+    list_display = ('title', 'slug', 'description')
     list_editable = ('slug',)
     search_fields = ('slug',)
     list_filter = ('slug',)
