@@ -6,7 +6,6 @@
   <div class="container py-5">
     <h1> Записи сообщества: {{ group.title }}</h1>
     <p>
-      Группа тайных поклонников графа.<br>
       Создана: {{ group.pub_date|date:"d E Y" }}<hr>
     </p>
     <article>
@@ -20,7 +19,6 @@
         </li>
       </ul>
       <p>{{ post.text }}</p>    
-      <a class="btn btn-primary my-5" href="">все записи группы</a>
       {% if not forloop.last %}<hr>{% endif %}
     {% endfor %}
     </article>
