@@ -19,7 +19,7 @@
         <li class="nav-item">
           <a class="nav-link" href="<!--  -->">Технологии</a>
         </li>
-        {% <!-- Проверка: авторизован ли пользователь? --> %}
+        {% if user.is_authenticated %}<!-- Проверка: авторизован ли пользователь? --> 
         <li class="nav-item"> 
           <a class="nav-link" href="<!--  -->">Новая запись</a>
         </li>

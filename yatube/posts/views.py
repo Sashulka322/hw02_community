@@ -26,12 +26,30 @@ def group_posts(request, slug):
     return render(request, 'posts/group_list.html', context)
 
 def profile(request, username):
+    user = get_object_or_404(User, username=username)
+    post_list = Post.object.filter(author=user)
+    paginator = Paginator(post_list, 10) 
+    page_namber =  request.GET.get('page')
+    page_obj = paginator.get_page(page_namber)
+    posts_count = Post.objects.filter(author=user).count()
     context = {
+        'user': user,
+        'posts_list': post_list,
+        'posts_count': posts_count,
+        'page_obj': page_obj
     }
     return render(request, 'posts/profile.html', context)
 
 
 def post_detail(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    posts_count = Post.objects.filter(author=post_author).count()
     context = {
+        'post': post,
+        'posts_count': posts_count
     }
     return render(request, 'posts/post_detail.html', context)
+
+
+
+    
