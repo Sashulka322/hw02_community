@@ -2,68 +2,52 @@
 {% extends 'base.html' %}
 {% load static %}
 <html lang="ru"> 
-  <head>  
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{% static 'img/logo.png' %}" type="image">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static "img/fav/apple-touch-icon.png" %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static "img/fav/favicon-32x32.png" %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static "img/fav/favicon-16x16.png" %}">
-    <meta name="msapplication-TileColor" content="#000">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <title>Профайл пользователя {{ posts_author.author.get_full_name }}<!--Лев Толстой--></title>
-  </head>
-  <body>       
-    <header>
-      <nav class="navbar navbar-light" style="background-color: lightskyblue">
-        <div class="container">
-          <a class="navbar-brand" href="/">
-            <img src="/static/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-            <span style="color:red">Ya</span>tube
-          </a>
-        </div>
-      </nav>      
-    </header>
+{% block title %}Профайл пользователя {{ posts_author.author.get_full_name }}{% endblock %}
+  {% block content %}
+  <body>
     <main>
-      <div class="container py-5">        
+
+      <div class="container py-5">
         <h1>Все посты пользователя  {{ posts_author.author.get_full_name }}<!--Лев Толстой--> </h1>
         <h3>Всего постов: {{ author_posts_numbers }}<!-- --> </h3>   
         <article>
+        {% for post in page_obj %}
           <ul>
             <li>
-              Автор: {{ post.author.leo }}
-              <a href="{% url "posts:group_posts" post.group.slug %}"{{ group.title }}>все посты пользователя</a>
+              Автор: {{ post.author.get_full_name }}
+              {% if post.author %}
+              <a href="{% url 'posts:profile' post.author.username %}">все посты пользователя</a>
+              {% endif %}
             </li>
-            <li>
+            <li>  
               Дата публикации: {{ post.pub_date|date:"d E Y" }}<!-- 31 июля 1854 --> 
             </li>
           </ul>
           <p>
-          {{ posts_author.text }}
-          <!--
-            [Фокшаны.] Еще переходъ до Фокшанъ, во время котораго я ѣхалъ съ 
-            Монго. Человѣкъ пустой, но съ твердыми, хотя и ложными убѣжденіями.
-            Генерал[у] по этому должно быть случаю, угодно было спрашивать о мое
-            мъ здоровьи.
-            Свинья! К[о]вырялъ носъ и ничего не написалъ — вотъ 2 упрека за 
-            нын[ѣшній]     день. Послѣдній упрекъ становится слишкомъ частъ, 
-            хотя походъ и можетъ служить въ немъ отчасти извиненіемъ. 
-            Отношенія мои съ товарищами становятся такъ пріятны, что мнѣ 
-            жалко бросить штабъ. Здоровье кажется (2) лучше. 
-          --> 
+          {{ posts_author.text }} 
           </p>
-          <a href="<!-- -->">подробная информация </a>
-        </article>       
-        <a href="<!-- -->">все записи группы</a>        
+          {% if post.author %}
+          <a href="{% url 'posts:post_detail' post.pk %}" >подробная информация </a>
+          {% endif %}
+
+        </article>
+        {% if post.group %}
+        <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+        {% endif %}
         <hr>
+        {% if not forloop.last %}<hr>{% endif %}
+        {% endfor %}
         <!-- Остальные посты. после последнего нет черты -->
+
         {% include 'posts/includes/paginator.html' %}
-        <!-- Здесь подключён паджинатор -->  
+        <!-- Здесь подключён паджинатор -->
+        {% endblock %}
       </div>
     </main>
+
     <footer class="border-top text-center py-3">
       <p>© <!--2021 --> Copyright <span style="color:red">Ya</span>tube</p>    
     </footer>
   </body>
 </html>
+

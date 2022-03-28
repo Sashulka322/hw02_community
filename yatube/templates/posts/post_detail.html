@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru"> 
+<html lang="ru">
+{% load static %} 
   <head>  
     <!-- Подключены иконки, стили и заполенены мета теги -->
     <meta charset="utf-8">
@@ -11,13 +12,13 @@
     <meta name="msapplication-TileColor" content="#000">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <title>Пост <!-- Первые 30 букв поста --></title>
+    <title>Пост {{ post.text|truncatechars:30 }} <!-- Первые 30 букв поста --></title>
   </head>
   <body>       
     <header>
       <nav class="navbar navbar-light" style="background-color: lightskyblue">
         <div class="container">
-          <a class="navbar-brand" href="/">
+          <a class="navbar-brand" href="{% url 'posts:post_detail 'post.post_id  %}">
             <img src="/static/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
             <span style="color:red">Ya</span>tube
           </a>
@@ -29,25 +30,23 @@
         <aside class="col-12 col-md-3">
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              Дата публикации: <!-- 31 июля 1854 --> {{ post.pub_date|date:"31.07.1854" }}
+              Дата публикации: <!-- 31 июля 1854 --> {{ post.pub_date|date:"d E Y" }}
             </li>
             {% if post in group %}
             <!-- если у поста есть группа -->   
               <li class="list-group-item">
-                Группа: <!-- Название группы -->
-                <a href=" {% url posts.group.group_list %}" "<!-- -->">
-                  все записи группы
-                </a>
+                Группа: {{ post.group.title }}<!-- Название группы -->
+                <a href="{% url 'posts:group_list' post.group.slug %}" >все записи группы</a>
               </li>
             {% endif %}
               <li class="list-group-item">
                 Автор: <!--Лев Толстой--> {{ post.author.get_full_name }}
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-              Всего постов автора:  <span >{{ author_posts_numbers }}<!-- --></span>
+              Всего постов автора:  <span >{{ posts_numbers }}<!-- --></span>
             </li>
             <li class="list-group-item">
-              <a href="<!-- -->">
+              <a href="{% url 'posts:profile' post.author.username %}">
                 все посты пользователя
               </a>
             </li>
@@ -55,7 +54,7 @@
         </aside>
         <article class="col-12 col-md-9">
           <p>
-            {{ posts_author.text }}
+            {{ posts.text }}
            <!--
             [Фокшаны.] Еще переходъ до Фокшанъ, во время котораго я ѣхалъ съ 
             Монго. Человѣкъ пустой, но съ твердыми, хотя и ложными убѣжденіями.
