@@ -2,14 +2,14 @@
 {% extends 'base.html' %}
 {% load static %}
 <html lang="ru"> 
-{% block title %}Профайл пользователя {{ posts_author.author.get_full_name }}{% endblock %}
+{% block title %}Профайл пользователя {{ user.get_full_name }}{% endblock %}
   {% block content %}
   <body>
     <main>
 
       <div class="container py-5">
-        <h1>Все посты пользователя  {{ posts_author.author.get_full_name }}<!--Лев Толстой--> </h1>
-        <h3>Всего постов: {{ author_posts_numbers }}<!-- --> </h3>   
+        <h1>Все посты пользователя {{ user.get_full_name }}<!--Лев Толстой--> </h1>
+        <h3>Всего постов: {{ author_posts_numbers }} </h3>   
         <article>
         {% for post in page_obj %}
           <ul>
@@ -24,7 +24,7 @@
             </li>
           </ul>
           <p>
-          {{ posts_author.text }} 
+          {{ post.text }} 
           </p>
           {% if post.author %}
           <a href="{% url 'posts:post_detail' post.pk %}" >подробная информация </a>

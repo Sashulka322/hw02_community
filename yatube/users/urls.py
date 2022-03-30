@@ -18,4 +18,27 @@ urlpatterns = [
         LoginView.as_view(template_name='users/login.html'),
         name='login'
     ),
+    path ( 'password_change/', views.PasswordChangeView.as_view(), 
+    template_name='users/password_change.html'
+    ),
+
+    path ( 'password_change/done/', views.PasswordChangeDoneView.as_view(), 
+    template_name='users/password_change_done.html'
+    ),
+
+    path ( 'password_reset/', views.PasswordResetView.as_view(), 
+    template_name='users/password_reset.html'
+    ),
+
+    path ( 'password_reset/done', views.PasswordResetDoneView.as_view(), 
+    template_name='users/password_reset_done.html'
+    ),
+
+    path ( 'reset/<uidb64>/<token>', views.PasswordChangeView.as_view(), 
+    template_name='users/password_reset_confirm.html'
+    ),
+
+    path ( 'reset/done', views.PasswordResetCompleteView.as_view(), 
+    template_name='users/password_reset_complate.html'
+    ),
 ]
